@@ -4,14 +4,16 @@ using ApiRapunzel.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace ApiRapunzel.Migrations
 {
     [DbContext(typeof(ContextoApi))]
-    partial class ContextoApiModelSnapshot : ModelSnapshot
+    [Migration("20190813213206_primra")]
+    partial class primra
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

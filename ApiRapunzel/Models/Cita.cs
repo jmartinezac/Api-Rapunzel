@@ -14,6 +14,10 @@ namespace ApiRapunzel.Models
         public int IdCita { get; set; }
         public DateTime Fecha { get; set; }
         public string Hora { get; set; }
-        public Cliente IdCliente { get; set; }
+        [ForeignKey("Cliente")]
+        public int IdCliente { get; set; }
+        //public Cliente IdCliente { get; set; }
+        [ForeignKey("Estilista")]
+        public Estilista IdEstilista { get; set; }
     }
 }
