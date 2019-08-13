@@ -7,15 +7,13 @@ using System.Threading.Tasks;
 
 namespace ApiRapunzel.Models
 {
-    public class Cliente
+    public class Estilista
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int IdCliente { get; set; }
+        public int IdEstilista { get; set; }
         public string Nombre { get; set; }
         public string Apellidos { get; set; }
-        public int Documento { get; set; }
         public List<Cita> IdCita { get; set; }
-
     }
 }
