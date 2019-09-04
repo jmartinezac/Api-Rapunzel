@@ -12,12 +12,25 @@ namespace ApiRapunzel.Models
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int IdCita { get; set; }
-        public DateTime Fecha { get; set; }
+        public string Fecha { get; set; }
         public string Hora { get; set; }
-        [ForeignKey("Cliente")]
+        [ForeignKey("IdEstadoCita")]
+        public int IdEstadoCita { get; set; }
+
+        public int IdEstilista { get; set; }
+        
         public int IdCliente { get; set; }
-        //public Cliente IdCliente { get; set; }
-        [ForeignKey("Estilista")]
-        public Estilista IdEstilista { get; set; }
+
+        // a continuacion esto retorna el objeto de cliente y estilista mkon
+        
+        //public virtual EstadoCita  EstadoCita { get; set; }
+
+        [ForeignKey("IdCliente")]
+        public virtual Cliente Cliente { get; set; }
+
+        [ForeignKey("IdEstilista")]
+        public virtual Estilista Estilista { get; set; }
+
+
     }
 }

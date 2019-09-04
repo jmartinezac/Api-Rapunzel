@@ -16,5 +16,6 @@ namespace ApiRapunzel.Models
         public DbSet<Cliente> Clientes { get; set; }
         public DbSet<Cita> Citas { get; set; }
         public DbSet<Estilista> Estilistas { get; set; }
+        public DbSet<EstadoCita> EstadoCitas { get; set; }
     }
 }

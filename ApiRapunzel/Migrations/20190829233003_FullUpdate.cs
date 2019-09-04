@@ -1,10 +1,9 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore.Metadata;
+﻿using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace ApiRapunzel.Migrations
 {
-    public partial class primra : Migration
+    public partial class FullUpdate : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -15,12 +14,26 @@ namespace ApiRapunzel.Migrations
                     IdCliente = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     Nombre = table.Column<string>(nullable: true),
+                    Usuario = table.Column<string>(nullable: true),
                     Apellidos = table.Column<string>(nullable: true),
                     Documento = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Clientes", x => x.IdCliente);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "EstadoCitas",
+                columns: table => new
+                {
+                    IdEstadoCita = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Nombre = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_EstadoCitas", x => x.IdEstadoCita);
                 });
 
             migrationBuilder.CreateTable(
@@ -43,37 +56,49 @@ namespace ApiRapunzel.Migrations
                 {
                     IdCita = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Fecha = table.Column<DateTime>(nullable: false),
+                    Fecha = table.Column<string>(nullable: true),
                     Hora = table.Column<string>(nullable: true),
-                    IdCliente = table.Column<int>(nullable: false),
-                    Estilista = table.Column<int>(nullable: true)
+                    IdEstadoCita = table.Column<int>(nullable: false),
+                    IdEstilista = table.Column<int>(nullable: false),
+                    IdCliente = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Citas", x => x.IdCita);
-                    table.ForeignKey(
-                        name: "FK_Citas_Estilistas_Estilista",
-                        column: x => x.Estilista,
-                        principalTable: "Estilistas",
-                        principalColumn: "IdEstilista",
-                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Citas_Clientes_IdCliente",
                         column: x => x.IdCliente,
                         principalTable: "Clientes",
                         principalColumn: "IdCliente",
                         onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Citas_EstadoCitas_IdEstadoCita",
+                        column: x => x.IdEstadoCita,
+                        principalTable: "EstadoCitas",
+                        principalColumn: "IdEstadoCita",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Citas_Estilistas_IdEstilista",
+                        column: x => x.IdEstilista,
+                        principalTable: "Estilistas",
+                        principalColumn: "IdEstilista",
+                        onDelete: ReferentialAction.Cascade);
                 });
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Citas_Estilista",
-                table: "Citas",
-                column: "Estilista");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Citas_IdCliente",
                 table: "Citas",
                 column: "IdCliente");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Citas_IdEstadoCita",
+                table: "Citas",
+                column: "IdEstadoCita");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Citas_IdEstilista",
+                table: "Citas",
+                column: "IdEstilista");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -82,10 +107,13 @@ namespace ApiRapunzel.Migrations
                 name: "Citas");
 
             migrationBuilder.DropTable(
-                name: "Estilistas");
+                name: "Clientes");
 
             migrationBuilder.DropTable(
-                name: "Clientes");
+                name: "EstadoCitas");
+
+            migrationBuilder.DropTable(
+                name: "Estilistas");
         }
     }
 }

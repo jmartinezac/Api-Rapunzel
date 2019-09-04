@@ -13,9 +13,10 @@ namespace ApiRapunzel.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int IdCliente { get; set; }
         public string Nombre { get; set; }
+        public string Usuario { get; set; }
         public string Apellidos { get; set; }
         public int Documento { get; set; }
-        public List<Cita> IdCita { get; set; }
+        //public virtual List<Cita> IdCita { get; set; }
 
     }
 }
