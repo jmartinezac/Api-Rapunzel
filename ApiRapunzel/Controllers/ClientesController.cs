@@ -13,49 +13,46 @@ namespace ApiRapunzel.Controllers
     [ApiController]
     public class ClientesController : ControllerBase
     {
+
         private readonly ContextoApi _context;
+  
 
         public ClientesController(ContextoApi context)
         {
             _context = context;
         }
 
-        // GET: api/Clientes
-        //[HttpGet]
-        //public IEnumerable<Cliente> GetClientes()
-        //{
-        //    return _context.Clientes;
-        //}
+        //GET: api/Clientes/usuario
+        [HttpGet("usuarios/{usuario}")]
+
+        public IEnumerable<Cliente> GetClientes(string usuario)
+        {
+            var clientes = (from c in _context.Clientes.
+                            Where(x => x.Usuario == usuario)
+                            select new Cliente
+                            {
+                                Nombre = c.Nombre,
+                                Apellidos = c.Apellidos,
+                                Documento = c.Documento,
+                                IdCliente = c.IdCliente,
+                                Usuario = c.Usuario
+
+                            }).ToList();
+
+            return clientes;
+        }
 
 
-        //// GET: api/Clientes/5
-        //[HttpGet("{id}")]
-        //public async Task<IActionResult> GetCliente([FromRoute] int id)
-        //{
-        //    if (!ModelState.IsValid)
-        //    {
-        //        return BadRequest(ModelState);
-        //    }
-
-        //    var cliente = await _context.Clientes.FindAsync(id);
-
-        //    if (cliente == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    return Ok(cliente);
-        //}
-
-        [HttpGet("{usuario}")]
-        public async Task<IActionResult> GetClientes(string usuario)
+        // GET: api/Clientes/5
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetCliente([FromRoute] int id)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var cliente = await _context.Clientes.FindAsync(usuario);
+            var cliente = await _context.Clientes.FindAsync(id);
 
             if (cliente == null)
             {
@@ -64,6 +61,8 @@ namespace ApiRapunzel.Controllers
 
             return Ok(cliente);
         }
+
+
         // PUT: api/Clientes/5
         [HttpPut("{id}")]
         public async Task<IActionResult> PutCliente([FromRoute] int id, [FromBody] Cliente cliente)

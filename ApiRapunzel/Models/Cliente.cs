@@ -16,7 +16,7 @@ namespace ApiRapunzel.Models
         public string Usuario { get; set; }
         public string Apellidos { get; set; }
         public int Documento { get; set; }
-        //public virtual List<Cita> IdCita { get; set; }
+        public virtual List<Cita> IdCita { get; set; }
 
     }
 }

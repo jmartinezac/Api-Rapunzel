@@ -4,14 +4,16 @@ using ApiRapunzel.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace ApiRapunzel.Migrations
 {
     [DbContext(typeof(ContextoApi))]
-    partial class ContextoApiModelSnapshot : ModelSnapshot
+    [Migration("20190928214412_datetie_fecha")]
+    partial class datetie_fecha
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -95,8 +97,8 @@ namespace ApiRapunzel.Migrations
 
             modelBuilder.Entity("ApiRapunzel.Models.Cita", b =>
                 {
-                    b.HasOne("ApiRapunzel.Models.Cliente")
-                        .WithMany("IdCita")
+                    b.HasOne("ApiRapunzel.Models.Cliente", "Cliente")
+                        .WithMany()
                         .HasForeignKey("IdCliente")
                         .OnDelete(DeleteBehavior.Cascade);
 
@@ -105,7 +107,7 @@ namespace ApiRapunzel.Migrations
                         .HasForeignKey("IdEstadoCita")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("ApiRapunzel.Models.Estilista")
+                    b.HasOne("ApiRapunzel.Models.Estilista", "Estilista")
                         .WithMany("IdCita")
                         .HasForeignKey("IdEstilista")
                         .OnDelete(DeleteBehavior.Cascade);

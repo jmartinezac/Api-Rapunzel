@@ -4,14 +4,16 @@ using ApiRapunzel.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace ApiRapunzel.Migrations
 {
     [DbContext(typeof(ContextoApi))]
-    partial class ContextoApiModelSnapshot : ModelSnapshot
+    [Migration("20190928223605_foreignkey_cita_estado")]
+    partial class foreignkey_cita_estado
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -25,21 +27,21 @@ namespace ApiRapunzel.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<int?>("EstadoCitaIdEstadoCita");
+
                     b.Property<DateTime>("Fecha");
 
                     b.Property<string>("Hora");
 
                     b.Property<int>("IdCliente");
 
-                    b.Property<int>("IdEstadoCita");
-
                     b.Property<int>("IdEstilista");
 
                     b.HasKey("IdCita");
 
-                    b.HasIndex("IdCliente");
+                    b.HasIndex("EstadoCitaIdEstadoCita");
 
-                    b.HasIndex("IdEstadoCita");
+                    b.HasIndex("IdCliente");
 
                     b.HasIndex("IdEstilista");
 
@@ -95,14 +97,13 @@ namespace ApiRapunzel.Migrations
 
             modelBuilder.Entity("ApiRapunzel.Models.Cita", b =>
                 {
+                    b.HasOne("ApiRapunzel.Models.EstadoCita")
+                        .WithMany("IdCita")
+                        .HasForeignKey("EstadoCitaIdEstadoCita");
+
                     b.HasOne("ApiRapunzel.Models.Cliente")
                         .WithMany("IdCita")
                         .HasForeignKey("IdCliente")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("ApiRapunzel.Models.EstadoCita")
-                        .WithMany("IdCita")
-                        .HasForeignKey("IdEstadoCita")
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("ApiRapunzel.Models.Estilista")

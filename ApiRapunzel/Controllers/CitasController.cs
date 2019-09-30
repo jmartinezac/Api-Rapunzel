@@ -31,7 +31,9 @@ namespace ApiRapunzel.Controllers
                          on c.IdCliente equals cl.IdCliente
                          join e in _context.Estilistas
                          on c.IdEstilista equals e.IdEstilista
-                         select new Models.CitasModel
+
+                         select new CitasModel
+
                          {
                              Fecha = c.Fecha,
                              Cliente = cl.Nombre,
@@ -52,7 +54,41 @@ namespace ApiRapunzel.Controllers
 
             return lista;
         }
-        
+        [HttpGet("fullcitas/{usuario}")]
+        public IEnumerable<CitasModel> GetCitas(string usuario)
+        {
+            //var listaini = _context.Citas.ToList();
+
+            var lista = (from c in _context.Citas
+                         join cl in _context.Clientes
+                         on c.IdCliente equals cl.IdCliente
+                         join e in _context.Estilistas
+                         on c.IdEstilista equals e.IdEstilista
+
+                         select new CitasModel
+
+                         {
+                             Fecha = c.Fecha,
+                             Cliente = cl.Nombre,
+                             ApellidosCliente = cl.Apellidos,
+                             Hora = c.Hora,
+                             Estilista = e.Nombre,
+                             ApellidosEstilista = e.Apellidos,
+                             IdCita = c.IdCita,
+                             Usuario = cl.Usuario
+                         }).ToList().Where(x => x.Usuario == usuario);
+            //List<Cita> listaresult = new List<Cita>();
+            //foreach (var item in lista)
+            //{
+            //   // listaresult.Add(new CitasModel()
+            //    {
+            //        Fecha = item.Fecha,
+            //        Cliente = item.Cliente,
+            //        Estilista = item.Estilista          
+
+            return lista;
+        }
+
         // GET: api/Citas/5
         [HttpGet("{id}")]
         public async Task<IActionResult> GetCita([FromRoute] int id)
@@ -114,6 +150,10 @@ namespace ApiRapunzel.Controllers
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
+            }
+            if (cita.IdEstadoCita == 0 )
+            {
+                cita.IdEstadoCita = 1;
             }
 
             _context.Citas.Add(cita);
